@@ -33,6 +33,19 @@ export const constantRouterMap = [
     }]
   },
   {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/userlist',
+    name: 'user',
+    meta: {title: '用户', icon: 'product'},
+    children: [{
+      path: 'userlist',
+      name: 'userlist',
+      component: () => import('@/views/user/userlist/index'),
+      meta: {title: '用户', icon: 'user-icon'}
+    }]
+  },
+  {
     path: '/pms',
     component: Layout,
     redirect: '/pms/product',
@@ -173,25 +186,25 @@ export const constantRouterMap = [
         component: () => import('@/views/oms/order/setting'),
         meta: {title: '订单设置', icon: 'order-setting'}
       },
-      {
-        path: 'returnApply',
-        name: 'returnApply',
-        component: () => import('@/views/oms/apply/index'),
-        meta: {title: '退货申请处理', icon: 'order-return'}
-      },
-      {
-        path: 'returnReason',
-        name: 'returnReason',
-        component: () => import('@/views/oms/apply/reason'),
-        meta: {title: '退货原因设置', icon: 'order-return-reason'}
-      },
-      {
-        path: 'returnApplyDetail',
-        name: 'returnApplyDetail',
-        component: () => import('@/views/oms/apply/applyDetail'),
-        meta: {title: '退货原因详情'},
-        hidden:true
-      }
+      // {
+      //   path: 'returnApply',
+      //   name: 'returnApply',
+      //   component: () => import('@/views/oms/apply/index'),
+      //   meta: {title: '退货申请处理', icon: 'order-return'}
+      // },
+      // {
+      //   path: 'returnReason',
+      //   name: 'returnReason',
+      //   component: () => import('@/views/oms/apply/reason'),
+      //   meta: {title: '退货原因设置', icon: 'order-return-reason'}
+      // },
+      // {
+      //   path: 'returnApplyDetail',
+      //   name: 'returnApplyDetail',
+      //   component: () => import('@/views/oms/apply/applyDetail'),
+      //   meta: {title: '退货原因详情'},
+      //   hidden:true
+      // }
     ]
   },
   {
@@ -201,33 +214,33 @@ export const constantRouterMap = [
     name: 'sms',
     meta: {title: '营销', icon: 'sms'},
     children: [
-      {
-        path: 'flash',
-        name: 'flash',
-        component: () => import('@/views/sms/flash/index'),
-        meta: {title: '秒杀活动列表', icon: 'sms-flash'}
-      },
-      {
-        path: 'flashSession',
-        name: 'flashSession',
-        component: () => import('@/views/sms/flash/sessionList'),
-        meta: {title: '秒杀时间段列表'},
-        hidden:true
-      },
-      {
-        path: 'selectSession',
-        name: 'selectSession',
-        component: () => import('@/views/sms/flash/selectSessionList'),
-        meta: {title: '秒杀时间段选择'},
-        hidden:true
-      },
-      {
-        path: 'flashProductRelation',
-        name: 'flashProductRelation',
-        component: () => import('@/views/sms/flash/productRelationList'),
-        meta: {title: '秒杀商品列表'},
-        hidden:true
-      },
+      // {
+      //   path: 'flash',
+      //   name: 'flash',
+      //   component: () => import('@/views/sms/flash/index'),
+      //   meta: {title: '秒杀活动列表', icon: 'sms-flash'}
+      // },
+      // {
+      //   path: 'flashSession',
+      //   name: 'flashSession',
+      //   component: () => import('@/views/sms/flash/sessionList'),
+      //   meta: {title: '秒杀时间段列表'},
+      //   hidden:true
+      // },
+      // {
+      //   path: 'selectSession',
+      //   name: 'selectSession',
+      //   component: () => import('@/views/sms/flash/selectSessionList'),
+      //   meta: {title: '秒杀时间段选择'},
+      //   hidden:true
+      // },
+      // {
+      //   path: 'flashProductRelation',
+      //   name: 'flashProductRelation',
+      //   component: () => import('@/views/sms/flash/productRelationList'),
+      //   meta: {title: '秒杀商品列表'},
+      //   hidden:true
+      // },
       {
         path: 'coupon',
         name: 'coupon',
@@ -255,30 +268,30 @@ export const constantRouterMap = [
         meta: {title: '优惠券领取详情'},
         hidden:true
       },
-      {
-        path: 'brand',
-        name: 'homeBrand',
-        component: () => import('@/views/sms/brand/index'),
-        meta: {title: '品牌推荐', icon: 'product-brand'}
-      },
-      {
-        path: 'new',
-        name: 'homeNew',
-        component: () => import('@/views/sms/new/index'),
-        meta: {title: '新品推荐', icon: 'sms-new'}
-      },
-      {
-        path: 'hot',
-        name: 'homeHot',
-        component: () => import('@/views/sms/hot/index'),
-        meta: {title: '人气推荐', icon: 'sms-hot'}
-      },
-      {
-        path: 'subject',
-        name: 'homeSubject',
-        component: () => import('@/views/sms/subject/index'),
-        meta: {title: '专题推荐', icon: 'sms-subject'}
-      },
+      // {
+      //   path: 'brand',
+      //   name: 'homeBrand',
+      //   component: () => import('@/views/sms/brand/index'),
+      //   meta: {title: '品牌推荐', icon: 'product-brand'}
+      // },
+      // {
+      //   path: 'new',
+      //   name: 'homeNew',
+      //   component: () => import('@/views/sms/new/index'),
+      //   meta: {title: '新品推荐', icon: 'sms-new'}
+      // },
+      // {
+      //   path: 'hot',
+      //   name: 'homeHot',
+      //   component: () => import('@/views/sms/hot/index'),
+      //   meta: {title: '人气推荐', icon: 'sms-hot'}
+      // },
+      // {
+      //   path: 'subject',
+      //   name: 'homeSubject',
+      //   component: () => import('@/views/sms/subject/index'),
+      //   meta: {title: '专题推荐', icon: 'sms-subject'}
+      // },
       {
         path: 'advertise',
         name: 'homeAdvertise',

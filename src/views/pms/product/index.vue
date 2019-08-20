@@ -373,6 +373,7 @@
     },
     watch: {
       selectProductCateValue: function (newValue) {
+        console.log(newValue);
         if (newValue != null && newValue.length == 2) {
           this.listQuery.productCategoryId = newValue[1];
         } else {
@@ -402,10 +403,12 @@
       },
       getList() {
         this.listLoading = true;
+        console.log(this.listQuery);
         fetchList(this.listQuery).then(response => {
           this.listLoading = false;
           this.list = response.data.list;
           this.total = response.data.total;
+          console.log(response.data.list);
         });
       },
       getBrandList() {
@@ -414,6 +417,7 @@
           let brandList = response.data.list;
           for (let i = 0; i < brandList.length; i++) {
             this.brandOptions.push({label: brandList[i].name, value: brandList[i].id});
+            console.log(response.data.list);
           }
         });
       },
@@ -429,6 +433,7 @@
               }
             }
             this.productCateOptions.push({label: list[i].name, value: list[i].id, children: children});
+            console.log(this.productCateOptions);
           }
         });
       },
