@@ -1,5 +1,8 @@
 import Vue from 'vue'
 
+import axios from 'axios'
+//设置请求头
+axios.defaults.headers.post["Content-type"] = "application/json"
 import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'

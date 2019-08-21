@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+
 export function fetchList(params) {
   return request({
     url:'/returnApply/list',
@@ -26,5 +27,12 @@ export function getApplyDetail(id) {
   return request({
     url:'/returnApply/'+id,
     method:'get'
+  })
+}
+export function testGetList(params) {
+  return request({
+    url:'/returnApply/list',
+    method:'get',
+    params:params
   })
 }
