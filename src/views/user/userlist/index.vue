@@ -180,7 +180,7 @@
       }
     },
     created(){
-      this.getList2();
+
     },
     filters:{
       formatTime(time) {
@@ -267,21 +267,17 @@
       getList2() {
      
       // 也可以通过 params 对象传递参数
-      var url = 'https://oasis.littleoasisgroup.com/api/oasis.ashx?action=TutorList';
+        var url = 'https://oasis.littleoasisgroup.com/api/oasis.ashx?action=TutorList';
 
-      axios({ 
-        method: 'post',
-        url: "/api/oasis.ashx?action=TutorList",
-      }).then(function (res) {
-        console.log(res);
-  
-      }).catch(function (err) {
-        console.log(err);
-      })
-
-
-
-  
+        axios({ 
+          method: 'post',
+          url: "/api/oasis.ashx?action=TutorList",
+        }).then(function (res) {
+          console.log(res);
+    
+        }).catch(function (err) {
+          console.log(err);
+        })
 
       
       }

@@ -1,20 +1,19 @@
+
 import request from '@/utils/request'
 
-export function login(username, password) {
+export function login(data) {
   return request({
-    url: '/admin/login',
+    url: '/adminUser/v1/login',
     method: 'post',
-    data: {
-      username,
-      password
-    }
+    data: data
   })
 }
 
-export function getInfo() {
+export function getInfo(data) {
   return request({
-    url: '/admin/info',
-    method: 'get',
+    url: '/adminUser/v1/getUserRoleList',
+    method: 'post',
+    data: data
   })
 }
 

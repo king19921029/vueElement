@@ -1,12 +1,12 @@
 import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setUserId, getUserId } from '@/utils/auth'
 
 const user = {
   state: {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: []
+    roles: ''
   },
 
   mutations: {
@@ -27,13 +27,12 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
+        login(userInfo).then(response => {
           const data = response.data
-          const tokenStr = data.tokenHead+data.token
-          setToken(tokenStr)
-          commit('SET_TOKEN', tokenStr)
+          setToken(response.data.token)
+          setUserId(response.data.id)
+          commit('SET_TOKEN', response.data.token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -42,17 +41,17 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo({ commit, state }) {
+    GetInfo({ commit, state },userInfo) {
       return new Promise((resolve, reject) => {
-        getInfo().then(response => {
+        getInfo(userInfo).then(response => {
           const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-          commit('SET_NAME', data.username)
-          commit('SET_AVATAR', data.icon)
+          // if (data.roles && data.roles.length > 0) {
+          //   commit('SET_ROLES', data.roles)
+          // } else {
+          //   reject('getInfo: roles must be a non-null array !')
+          // }
+          // commit('SET_NAME', data.username)
+          // commit('SET_AVATAR', data.icon)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -63,14 +62,18 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        // logout(state.token).then(() => {
+        //   commit('SET_TOKEN', '')
+        //   commit('SET_ROLES', [])
+        //   removeToken()
+        //   resolve()
+        // }).catch(error => {
+        //   reject(error)
+        // })
+        commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
+        removeToken()
+        resolve()
       })
     },
 
