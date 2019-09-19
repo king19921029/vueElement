@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs';
 import {
   Message,
   MessageBox
@@ -14,6 +15,10 @@ const service = axios.create({
   // baseURL: "https://api.lingling365.cn:8443",
   baseURL: "http://101.201.234.246:8080",
   timeout: 5000, // 请求超时时间
+  transformRequest: [function(data) {
+    data = qs.stringify(data) //序列化参数
+    return data
+  }]
 })
 
 // request拦截器

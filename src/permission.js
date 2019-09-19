@@ -34,24 +34,28 @@ router.beforeEach((to, from, next) => {
         try {
           let params = new URLSearchParams();
           params.append('adminUserId', getUserId());
-          store.dispatch('GetInfo', params).then(res => {
+          let obj = {
+            "adminUserId":getUserId()
+          }
+          store.dispatch('GetInfo',obj).then(res => {
             // 拉取用户信息
-            store.dispatch('GenerateRoutes', {
-              "roles": res.data
-            }).then(() => {
-              router.addRoutes(store.getters.addRouters)
-              // // hack方法 确保addRoutes已完成
-              next({ ...to,
-                replace: true
-              })
-            })
-          }).catch((err) => {
-            // store.dispatch('FedLogOut').then(() => {
-            //   Message.error(err || 'Verification failed, please login again')
-            //   next({
-            //     path: '/'
+            // store.dispatch('GenerateRoutes', {
+            //   "roles": res.data
+            // }).then(() => {
+            //   router.addRoutes(store.getters.addRouters)
+            //   // // hack方法 确保addRoutes已完成
+            //   next({ ...to,
+            //     replace: true
             //   })
             // })
+            
+          }).catch((err) => {
+            store.dispatch('FedLogOut').then(() => {
+              Message.error(err || 'Verification failed, please login again')
+              next({
+                path: '/'
+              })
+            })
           })
 
         } catch (error) {

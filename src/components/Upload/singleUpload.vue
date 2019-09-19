@@ -1,109 +1,88 @@
 <template> 
   <div>
-    <el-upload
-      action="http://macro-oss.oss-cn-shenzhen.aliyuncs.com"
-      :data="dataObj"
-      list-type="picture"
-      :multiple="false" :show-file-list="showFileList"
-      :file-list="fileList"
-      :before-upload="beforeUpload"
-      :on-remove="handleRemove"
-      :on-success="handleUploadSuccess"
-      :on-preview="handlePreview">
-      <el-button size="small" type="primary">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过10MB</div>
-    </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="fileList[0].url" alt="">
-    </el-dialog>
+    <div :model="value">
+      <el-upload class="avatar-uploader" action="" :show-file-list="false" :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload" :http-request="Upload">
+        <img v-if="value.headerPicUrl" :src="value.headerPicUrl" class="avatar">
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+    </div>
+
   </div>
 </template>
 <script>
-  import {policy} from '@/api/oss'
+  import {
+    put
+  } from '@/utils/updateImg'
 
   export default {
     name: 'singleUpload',
     props: {
-      value: String
-    },
-    computed: {
-      imageUrl() {
-        return this.value;
-      },
-      imageName() {
-        if (this.value != null && this.value !== '') {
-          return this.value.substr(this.value.lastIndexOf("/") + 1);
-        } else {
-          return null;
-        }
-      },
-      fileList() {
-        return [{
-          name: this.imageName,
-          url: this.imageUrl
-        }]
-      },
-      showFileList: {
-        get: function () {
-          return this.value !== null && this.value !== ''&& this.value!==undefined;
-        },
-        set: function (newValue) {
-        }
+      value: Object,
+      isEdit: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
       return {
-        dataObj: {
-          policy: '',
-          signature: '',
-          key: '',
-          ossaccessKeyId: '',
-          dir: '',
-          host: '',
-          // callback:'',
-        },
-        dialogVisible: false
+        imageUrl: null
       };
     },
+
+    created(){
+
+    },
     methods: {
-      emitInput(val) {
-        this.$emit('input', val)
-      },
-      handleRemove(file, fileList) {
-        this.emitInput('');
-      },
-      handlePreview(file) {
-        this.dialogVisible = true;
-      },
-      beforeUpload(file) {
-        let _self = this;
-        return new Promise((resolve, reject) => {
-          policy().then(response => {
-            _self.dataObj.policy = response.data.policy;
-            _self.dataObj.signature = response.data.signature;
-            _self.dataObj.ossaccessKeyId = response.data.accessKeyId;
-            _self.dataObj.key = response.data.dir + '/${filename}';
-            _self.dataObj.dir = response.data.dir;
-            _self.dataObj.host = response.data.host;
-            // _self.dataObj.callback = response.data.callback;
-            resolve(true)
-          }).catch(err => {
-            console.log(err)
-            reject(false)
-          })
+      Upload(file) {
+        let fileName = 'photo' + file.file.uid;
+        // 调用 ali-oss 中的方法
+        put(fileName, file.file).then(res => {
+          if (res.url) {
+            this.value.headerPicUrl = res.url;
+          }
         })
       },
-      handleUploadSuccess(res, file) {
-        this.showFileList = true;
-        this.fileList.pop();
-        this.fileList.push({name: file.name, url: this.dataObj.host + '/' + this.dataObj.dir + '/' + file.name});
-        this.emitInput(this.fileList[0].url);
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+        console.log(111)
+      },
+      beforeAvatarUpload(file) {
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isLt2M;
       }
+
     }
   }
 </script>
 <style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
 
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>
-
-

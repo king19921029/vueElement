@@ -51,14 +51,14 @@
             <div class="total-value">￥5000.00</div>
           </div>
         </el-col>
-        <!--<el-col :span="6">-->
-        <!--<div class="total-frame">-->
-        <!--<svg-icon icon-class="total-week" class="total-icon">-->
-        <!--</svg-icon>-->
-        <!--<div class="total-title">近7天销售总额</div>-->
-        <!--<div class="total-value">￥50000.00</div>-->
-        <!--</div>-->
-        <!--</el-col>-->
+        <el-col :span="6">
+          <div class="total-frame">
+            <svg-icon icon-class="total-week" class="total-icon">
+            </svg-icon>
+            <div class="total-title">近7天销售总额</div>
+            <div class="total-value">￥50000.00</div>
+          </div>
+        </el-col>
       </el-row>
     </div>
 
@@ -228,8 +228,6 @@
   import {
     str2Date
   } from '@/utils/date';
-
-  import { getUserList } from '@/api/userList'
   import img_home_order from '@/assets/images/home_order.png';
   import img_home_today_amount from '@/assets/images/home_today_amount.png';
   import img_home_yesterday_amount from '@/assets/images/home_yesterday_amount.png';
@@ -367,26 +365,15 @@
     created() {
       this.initOrderCountDate();
       this.getData();
-
+      
     },
+
     mounted() {
-      const obj2 = {
-        name: "乐乐",
-        sex: 11,
-        say: "旺旺旺"
-      }
-      let { ...obj
-      } = obj2;
-      this.getList()
+
     },
     methods: {
       handleDateChange() {
         this.getData();
-      },
-      getList(){
-        getUserList().then(res => {
-          console.log(res)
-        });
       },
       initOrderCountDate() {
         let start = new Date();

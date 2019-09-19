@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import axios from 'axios'
-//设置请求头
 // axios.defaults.headers["pCode"] = "chenyueqi"
 // axios.defaults.headers["Content-Type"] = "application/x-www-form-urlencoded"
 import 'normalize.css/normalize.css'// A modern alternative to CSS resets

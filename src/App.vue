@@ -11,4 +11,13 @@
 </script>
 
 <style>
+  .search_titles{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+  }
+  .display_flex{
+    display: flex;
+    align-items: center;
+  }
 </style>

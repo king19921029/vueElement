@@ -5,7 +5,7 @@
         <div style="text-align: center">
           <svg-icon icon-class="login-mall" style="width: 56px;height: 56px;color: #409EFF"></svg-icon>
         </div>
-        <h2 class="login-title color-main">mall-admin-web</h2>
+        <h2 class="login-title color-main">元气管家</h2>
         <el-form-item prop="username">
           <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="请输入用户名">
             <span slot="prefix">
@@ -99,11 +99,7 @@
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
           if (valid) {
-            let params = new URLSearchParams();
-            params.append('username',this.loginForm.username);
-            params.append('password',this.loginForm.password);
-            this.$store.dispatch('Login',params).then(() => {
-
+            this.$store.dispatch('Login',this.loginForm).then(() => {
               this.$router.push({
                 path: '/'
               })

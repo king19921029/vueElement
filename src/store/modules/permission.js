@@ -103,7 +103,7 @@ const permission = {
       return new Promise(resolve => {
         let roles = data.roles;
         let accessedRouters = '';
-         console.log(data)
+
         if( roles.length > 0 ){
           roles.map(item => {
               item.component = Layout
@@ -117,7 +117,6 @@ const permission = {
                 // let views = rou.split("views")
                 // console.log(views[1])
                 let str = items.component;
-                console.log(`@/views/${str}`)
                 items.component = () => import(`@/views/${str}`)
               })
             })

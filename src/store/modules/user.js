@@ -1,12 +1,28 @@
-import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken, setUserId, getUserId } from '@/utils/auth'
+import {
+  login,
+  logout,
+  getInfo
+} from '@/api/login'
+
+import {
+  getUserDetails
+} from '@/api/getUserBasicsList'
+
+import {
+  getToken,
+  setToken,
+  removeToken,
+  setUserId,
+  getUserId
+} from '@/utils/auth'
 
 const user = {
   state: {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: ''
+    roles: '',
+    userId: '1',
   },
 
   mutations: {
@@ -21,18 +37,25 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_USERID: (state, userId) => {
+      state.userId = userId
     }
   },
 
   actions: {
     // 登录
-    Login({ commit }, userInfo) {
+    Login({
+      commit
+    }, userInfo) {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const data = response.data
           setToken(response.data.token)
           setUserId(response.data.id)
           commit('SET_TOKEN', response.data.token)
+          commit('SET_USERID', response.data.id)
+          commit('SET_AVATAR', response.data.header_pic_url)
           resolve()
         }).catch(error => {
           reject(error)
@@ -41,7 +64,10 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo({ commit, state },userInfo) {
+    GetInfo({
+      commit,
+      state
+    }, userInfo) {
       return new Promise((resolve, reject) => {
         getInfo(userInfo).then(response => {
           const data = response.data
@@ -51,7 +77,10 @@ const user = {
           //   reject('getInfo: roles must be a non-null array !')
           // }
           // commit('SET_NAME', data.username)
-          // commit('SET_AVATAR', data.icon)
+          getUserDetails({adminUserId:getUserId()}).then(res=>{
+            commit('SET_AVATAR', res.data.header_pic_url)
+          })
+
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -60,7 +89,10 @@ const user = {
     },
 
     // 登出
-    LogOut({ commit, state }) {
+    LogOut({
+      commit,
+      state
+    }) {
       return new Promise((resolve, reject) => {
         // logout(state.token).then(() => {
         //   commit('SET_TOKEN', '')
@@ -74,11 +106,15 @@ const user = {
         commit('SET_ROLES', [])
         removeToken()
         resolve()
+        next('/login')
+
       })
     },
 
     // 前端 登出
-    FedLogOut({ commit }) {
+    FedLogOut({
+      commit
+    }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
         removeToken()
