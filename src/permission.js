@@ -16,7 +16,6 @@ const whiteList = ['/login'] // 不重定向白名单
 // 检查是否是登录态
 router.beforeEach((to, from, next) => {
   NProgress.start()
-
   if (getToken()) {
     if (to.path === '/login') {
       next({
@@ -24,14 +23,10 @@ router.beforeEach((to, from, next) => {
       })
       NProgress.done()
     } else {
-
-      if (store.getters.roles.length === 0) {
-        // console.log("重定向")
-        // let str = "() => import('@/views/pms/product/index')".split("import")
-        // let result = str[1].match(/\(([^)]*)\)/);
-        // console.log(result)
-        // accessedRouters = roles
+      if (store.getters.addRouters.length == 0) {
+        console.log("重定向")
         try {
+          console.log("try")
           let params = new URLSearchParams();
           params.append('adminUserId', getUserId());
           let obj = {
@@ -39,16 +34,16 @@ router.beforeEach((to, from, next) => {
           }
           store.dispatch('GetInfo',obj).then(res => {
             // 拉取用户信息
-            // store.dispatch('GenerateRoutes', {
-            //   "roles": res.data
-            // }).then(() => {
-            //   router.addRoutes(store.getters.addRouters)
-            //   // // hack方法 确保addRoutes已完成
-            //   next({ ...to,
-            //     replace: true
-            //   })
-            // })
-            
+            store.dispatch('GenerateRoutes', {
+              "roles": res.data
+            }).then(() => {
+              router.addRoutes(store.getters.addRouters)
+              // // hack方法 确保addRoutes已完成
+              next({ ...to,
+                replace: true
+              })
+            })
+
           }).catch((err) => {
             store.dispatch('FedLogOut').then(() => {
               Message.error(err || 'Verification failed, please login again')

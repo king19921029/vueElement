@@ -1,14 +1,13 @@
 <template> 
-  <div>
-    <div :model="value">
-      <el-upload class="avatar-uploader" action="" :show-file-list="false" :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload" :http-request="Upload">
-        <img v-if="value.headerPicUrl" :src="value.headerPicUrl" class="avatar">
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload>
-    </div>
 
+  <div :model="value">
+    <el-upload class="avatar-uploader" action="" :show-file-list="false" :on-success="handleAvatarSuccess"
+      :before-upload="beforeAvatarUpload" :http-request="Upload" :on-remove="handleRemove">
+      <img v-if="value.headerPicUrl" :src="value.headerPicUrl" class="avatar">
+      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    </el-upload>
   </div>
+
 </template>
 <script>
   import {
@@ -30,7 +29,7 @@
       };
     },
 
-    created(){
+    created() {
 
     },
     methods: {
@@ -42,6 +41,9 @@
             this.value.headerPicUrl = res.url;
           }
         })
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
       },
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);

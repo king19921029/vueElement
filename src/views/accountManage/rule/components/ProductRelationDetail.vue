@@ -91,7 +91,6 @@
         this.groupList = groupList;
         this.groupList2 = groupList2;
       } else {
-        // this.getUserListFun();
         this.getGroupListFun()
       }
 
@@ -101,7 +100,7 @@
       async getUserListFun() {
         try {
           let res = await getUserList({
-            "skip": 0,
+            "pageNum": 1,
             "size": 100,
             nullAdminGroupId: "ok"
           });
@@ -124,8 +123,9 @@
       async getGroupListFun() {
         try {
           let res = await queryRoleList({
-            "skip": 0,
-            "size": 100
+            pageNum: 1,
+            size: 100,
+            level: 1
           });
           let list = res.data.adminRoleList;
           let groupList = [];
@@ -146,7 +146,7 @@
         const that = this;
         try {
           let res = await addAdminGroup(data);
-          if (res.data.success !="") {
+          if (res.data.success != "") {
             that.$message({
               message: '添加成功',
               type: 'success',

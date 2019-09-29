@@ -34,8 +34,7 @@
     </el-card>
     <!-- table -->
     <div class="table-container">
-      <el-table ref="productTable" :data="list" style="width: 100%" @selection-change="handleSelectionChange" border>
-        <!-- v-loading="listLoading" -->
+      <el-table ref="productTable" v-loading="listLoading" :data="list" style="width: 100%" @selection-change="handleSelectionChange" border>
         <el-table-column label="规则组名称" width="120" align="center">
           <template slot-scope="scope">{{scope.row.admin_group_name}}</template>
         </el-table-column>
@@ -47,7 +46,7 @@
           <template slot-scope="scope">{{scope.row.admin_group_user_count}}</template>
         </el-table-column>
 
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" width="280" align="center">
           <template slot-scope="scope">
             <p>
               <el-button size="mini" @click="handleShowProduct(scope.$index, scope.row)">查看
@@ -65,7 +64,7 @@
     <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total,sizes,prev, pager, next,jumper"
-        :page-size="listQuery.size" :page-sizes="[5,10,15]" :current-page.sync="listQuery.skip" :total="total">
+        :page-size="listQuery.size" :page-sizes="[5,10,15]" :current-page.sync="listQuery.pageNum" :total="total">
       </el-pagination>
     </div>
     <div style="height: 80px;width: 100%;"></div>
@@ -102,7 +101,7 @@
 
   const defaultListQuery = {
     name: null,
-    skip: 1,
+    pageNum: 1,
     size: 5,
     publishStatus: null,
     verifyStatus: null,
@@ -172,7 +171,7 @@
       },
       // 搜索
       handleSearchList() {
-        this.listQuery.skip = 1;
+        this.listQuery.pageNum = 1;
         let obj = Object.assign({}, this.listQuery);
         obj.groupName = obj.groupName ? encodeURI(obj.groupName) : null
         this.getUserListFun(obj)
@@ -212,13 +211,13 @@
       },
       // 分页数字
       handleSizeChange(val) {
-        this.listQuery.skip = 1;
+        this.listQuery.pageNum = 1;
         this.listQuery.size = val;
         this.getUserListFun();
       },
       // 分页角标
       handleCurrentChange(val) {
-        this.listQuery.skip = val;
+        this.listQuery.pageNum = val;
         this.getUserListFun();
       },
       handleSelectionChange(val) {

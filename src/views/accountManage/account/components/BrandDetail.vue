@@ -150,11 +150,6 @@
             message: '请输入密码',
             trigger: 'blur'
           }],
-          // iSpassword: [{
-          //   required: true,
-          //   message: '请输入确认密码',
-          //   trigger: 'blur'
-          // }],
           adminGroupId: [{
             required: true,
             message: '请选择权限',
@@ -173,7 +168,7 @@
     created() {
       this.brand.adminUserId = this.$route.query.id ? this.$route.query.id : null
       getGroupList({
-        "skip": 0,
+        "pageNum": 1,
         "size": 100
       }).then(res => {
         let list = res.data.adminGroupList;
@@ -311,7 +306,7 @@
       async getGroupListFun() {
         try {
           let data = await getGroupList({
-            "skip": 0,
+            "pageNum": 0,
             "size": 100
           })
           let list = data.data.adminGroupList;

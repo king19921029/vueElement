@@ -1,5 +1,7 @@
 import axios from 'axios'
 import qs from 'qs';
+
+import domain from './getUrl.js';
 import {
   Message,
   MessageBox
@@ -8,13 +10,12 @@ import store from '../store'
 import {
   getToken
 } from '@/utils/auth'
-
 // 创建axios实例
 const service = axios.create({
   // baseURL: process.env.BASE_API, // api的base_url
   // baseURL: "https://api.lingling365.cn:8443",
-  baseURL: "http://101.201.234.246:8080",
-  timeout: 5000, // 请求超时时间
+  baseURL: domain.url,
+  timeout: 15000, // 请求超时时间
   transformRequest: [function(data) {
     data = qs.stringify(data) //序列化参数
     return data

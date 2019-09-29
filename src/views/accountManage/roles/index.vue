@@ -47,10 +47,10 @@
           <template slot-scope="scope">{{scope.row.num}}</template>
         </el-table-column>
         <el-table-column label="所属级别" width="200" align="center">
-          <template slot-scope="scope">{{scope.row.level}}</template>
+          <template slot-scope="scope">{{scope.row.level == 0? '根目录' : '子目录'}}</template>
         </el-table-column>
 
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" width="280" align="center">
           <template slot-scope="scope">
             <p>
               <el-button size="mini" @click="handleShowProduct(scope.$index, scope.row)">查看
@@ -68,7 +68,7 @@
     <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total,sizes,prev, pager, next,jumper"
-        :page-size="listQuery.size" :page-sizes="[5,10,15]" :current-page.sync="listQuery.skip" :total="total">
+        :page-size="listQuery.size" :page-sizes="[5,10,15]" :current-page.sync="listQuery.pageNum" :total="total">
       </el-pagination>
     </div>
     <div style="height: 80px;width: 100%;"></div>
@@ -78,7 +78,7 @@
         <div>名称：{{rolesDetails.admin_role_name}}</div>
         <div>说明：{{rolesDetails.admin_role_info}}</div>
         <div>排序：{{rolesDetails.num}}</div>
-        <div>所属级别：{{rolesDetails.level}}</div>
+        <div>所属级别：{{rolesDetails.level == 0 ? '根目录' : '子目录'}}</div>
         <div>component：{{rolesDetails.component}}</div>
         <div>icon：{{rolesDetails.icon}}</div>
         <div>name：{{rolesDetails.name}}</div>
@@ -105,7 +105,7 @@
 
   const defaultListQuery = {
     adminRoleName: null,
-    skip: 1,
+    pageNum: 1,
     size: 5
   };
   export default {
@@ -126,10 +126,22 @@
         rolesDetails: {},
       }
     },
+
     created() {
       this.queryRoleListFun();
     },
+    computed: {
+      // 计算属性的 getter
+      // gradeStr(id) {
+      //   return id == "0" ? "根目录" : "子目录"
+      //   // return 11111;
+      // }
+    },
     methods: {
+      gradeStr(id) {
+        return id == "0" ? "根目录" : "子目录"
+        // return 11111;
+      },
       // 列表
       queryRoleListFun() {
         this.listLoading = true;
@@ -155,9 +167,16 @@
       },
       // 搜索
       handleSearchList() {
-        this.listQuery.skip = 1;
-        this.listQuery.adminRoleName = this.listQuery.adminRoleName ? encodeURI(this.listQuery.adminRoleName):null
-        this.queryRoleListFun(this.listQuery);
+        this.listQuery.pageNum = 1;
+
+        let obj = Object.assign({}, this.listQuery);
+        obj.adminRoleName = obj.adminRoleName ? encodeURI(obj.adminRoleName) : null
+
+        queryRoleList(obj).then(res => {
+          this.listLoading = false;
+          this.list = res.data.adminRoleList;
+          this.total = res.data.total;
+        })
       },
       // 重置搜所
       handleResetSearch() {
@@ -199,20 +218,20 @@
               type: 'success',
               duration: 1000
             });
-            this.listQuery.skip = 1;
+            this.listQuery.pageNum = 1;
             this.queryRoleListFun();
           });
         });
       },
       // 分页数字
       handleSizeChange(val) {
-        this.listQuery.skip = 1;
+        this.listQuery.pageNum = 1;
         this.listQuery.size = val;
         this.queryRoleListFun();
       },
       // 分页角标
       handleCurrentChange(val) {
-        this.listQuery.skip = val;
+        this.listQuery.pageNum = val;
         this.queryRoleListFun();
       },
       // 分页-------

@@ -12,12 +12,12 @@
       </el-form-item>
 
       <el-form-item label="级别" prop="level">
-        <el-cascader clearable v-model="brand.level" :options="userLevel">
+        <el-cascader v-model="brand.level" :options="userLevel">
         </el-cascader>
       </el-form-item>
 
       <el-form-item v-if="parentNode" label="父节点" prop="pid">
-        <el-cascader clearable v-model="brand.pid" :options="parentData">
+        <el-cascader v-model="brand.pid" :options="parentData">
         </el-cascader>
       </el-form-item>
 
@@ -164,7 +164,7 @@
         if (val == 1) {
           this.parentNode = true
           queryRoleList({
-            skip: 0,
+            pageNum: 1,
             size: 100,
             level: 0
           }).then(res => {
@@ -235,13 +235,6 @@
       } else {
         console.log('添加')
       }
-      // if (this.isEdit) {
-      //   getBrand(this.$route.query.id).then(response => {
-      //     this.brand = response.data;
-      //   });
-      // } else {
-      //   this.brand = Object.assign({}, defaultBrand);
-      // }
     },
     methods: {
       onSubmit(formName) {
@@ -258,6 +251,7 @@
               ajaxData.info = encodeURI(this.brand.info)
               ajaxData.pid = ajaxData.pid ? ajaxData.pid[0] : []
               ajaxData.level = ajaxData.level ? ajaxData.level[0] : ""
+              ajaxData.title = encodeURI(this.brand.title)
 
               if (this.$route.query.id != "") {
                 console.log('修改')

@@ -120,8 +120,9 @@ const permission = {
                 items.component = () => import(`@/views/${str}`)
               })
             })
-            // accessedRouters = roles
-            accessedRouters = constantRouterMap
+            console.log(roles)
+            accessedRouters = roles
+            // accessedRouters = constantRouterMap
         }else{
           // accessedRouters = asyncRouterMap
           // accessedRouters = asyncRouterMap

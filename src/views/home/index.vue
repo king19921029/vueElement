@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="address-layout">
+   <!-- <div class="address-layout">
       <el-row :gutter="20">
         <el-col :span="6">
           <div class="out-border">
@@ -27,7 +27,7 @@
           </div>
         </el-col>
       </el-row>
-    </div>
+    </div> -->
     <div class="total-layout">
       <el-row :gutter="20">
         <el-col :span="6">
@@ -53,8 +53,7 @@
         </el-col>
         <el-col :span="6">
           <div class="total-frame">
-            <svg-icon icon-class="total-week" class="total-icon">
-            </svg-icon>
+            <img :src="img_home_yesterday_amount" class="total-icon">
             <div class="total-title">近7天销售总额</div>
             <div class="total-value">￥50000.00</div>
           </div>
@@ -372,6 +371,7 @@
 
     },
     methods: {
+     
       handleDateChange() {
         this.getData();
       },

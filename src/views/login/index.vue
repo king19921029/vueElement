@@ -40,6 +40,11 @@
   import {
     isvalidUsername
   } from '@/utils/validate';
+
+  import {
+    login
+  } from '@/api/login';
+
   import {
     setSupport,
     getSupport,
@@ -88,6 +93,33 @@
         supportDialogVisible: false
       }
     },
+    created() {
+      let userStatus = [{
+          value: 0,
+          label: "有"
+        },
+        {
+          value: 1,
+          label: "没有"
+        }
+      ]
+
+      // let num = 1000;
+      // let arr = [];
+      // for(let i = 0;i<num;i++ ){
+      //   let obj = {
+      //     name: encodeURI("名字名字名字名字名字"),
+      //     say:encodeURI("多问问我饿饿")
+      //   }
+      //   arr.push(obj)
+      // }
+     
+      
+      // axios.post('http://101.201.234.246:8080/adminUser/v1/login',obj)
+      //   .then(function(response) {
+      //     console.log(response);
+      //   })
+    },
     methods: {
       showPwd() {
         if (this.pwdType === 'password') {
@@ -99,7 +131,7 @@
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
           if (valid) {
-            this.$store.dispatch('Login',this.loginForm).then(() => {
+            this.$store.dispatch('Login', this.loginForm).then(() => {
               this.$router.push({
                 path: '/'
               })

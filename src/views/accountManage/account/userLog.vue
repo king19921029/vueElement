@@ -64,7 +64,7 @@
     <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total,sizes,prev, pager, next,jumper"
-        :page-size="listQuery.size" :page-sizes="[5,10,15]" :current-page.sync="listQuery.skip" :total="total">
+        :page-size="listQuery.size" :page-sizes="[5,10,15]" :current-page.sync="listQuery.pageNum" :total="total">
       </el-pagination>
     </div>
     <!-- 弹框 -->
@@ -88,7 +88,7 @@
   } from '@/api/getUserBasicsList'
 
   const defaultListQuery = {
-    skip: 1,
+    pageNum: 1,
     size: 5,
     adminUserId: null,
     beginTime: null,
@@ -122,7 +122,7 @@
         this.listLoading = true;
         try {
           let obj = {
-            "skip": this.listQuery.skip,
+            "pageNum": this.listQuery.pageNum,
             "size": this.listQuery.size,
             'adminUserId': this.$route.query.id,
           }
@@ -170,14 +170,14 @@
       // 每页多少条
       handleSizeChange(val) {
         // console.log("数字")
-        this.listQuery.skip = 1;
+        this.listQuery.pageNum = 1;
         this.listQuery.size = val;
         this.getUserListFun(this.listQuery);
       },
       // 数字-角标点击
       handleCurrentChange(val) {
         console.log("数字")
-        this.listQuery.skip = val
+        this.listQuery.pageNum = val
         this.getUserListFun();
       },
       handleSelectionChange(val) {

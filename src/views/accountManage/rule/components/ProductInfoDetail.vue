@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 50px">
-    <el-form :model="value" :rules="rules" ref="productInfoForm" label-width="120px" style="width: 600px" size="small">
+   <el-form :model="value" :rules="rules" ref="productInfoForm" label-width="120px" style="width: 600px" size="small">
 
       <el-form-item label="规则组名称：" prop="name">
         <el-input v-model="value.name"></el-input>
@@ -63,7 +63,7 @@
         //   this.value.adminUserList = res.data.adminUserList
         //   this.value.notAdminUserList = res.data.notAdminUserList
         // })
-        
+
       }
     },
 

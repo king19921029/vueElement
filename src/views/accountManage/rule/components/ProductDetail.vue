@@ -1,4 +1,4 @@
-<template> 
+<template>
   <el-card class="form-container" shadow="never">
     <el-steps :active="active" finish-status="success" align-center>
       <el-step title="填写基础信息"></el-step>
@@ -15,22 +15,24 @@
   </el-card>
 </template>
 <script>
-
   // 规则组详情
   import {
     getRuleDetails
   } from '@/api/ruleMsg'
+
+  import ProductInfoDetail from './ProductInfoDetail'
+  import ProductRelationDetail from './ProductRelationDetail'
 
   const defaultProductParam = {
     name: null,
     info: null,
     adminUserList: null,
     adminRoleList: null,
-    id:"",
-    adminRoleList:null,
-    notAdminRoleList:null,
-    adminUserList:null,
-    notAdminUserList:null
+    id: "",
+    adminRoleList: null,
+    notAdminRoleList: null,
+    adminUserList: null,
+    notAdminUserList: null
   };
   export default {
     name: 'ProductDetail',

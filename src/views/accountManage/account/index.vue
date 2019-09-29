@@ -25,14 +25,14 @@
             <el-input style="width: 203px" v-model="listQuery.phone" placeholder="手机号"></el-input>
           </el-form-item>
           <el-form-item label="按权限组搜索：">
-            <el-select style="width: 203px" v-model="listQuery.adminGroupId" placeholder="请选择权限" clearable>
+            <el-select style="width: 203px" v-model="listQuery.adminGroupId" placeholder="请选择权限">
               <el-option v-for="item in groupList" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="按状态搜索：">
-            <el-select style="width: 203px" v-model="listQuery.status" placeholder="请选择状态" clearable>
+            <el-select style="width: 203px" v-model="listQuery.status" placeholder="请选择状态">
               <el-option v-for="item in userStatus" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -70,13 +70,15 @@
         <el-table-column label="所属权限" width="150" align="center">
           <template slot-scope="scope">{{scope.row.admin_group_name}}</template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <p>
               <el-button size="mini" @click="handleShowProduct(scope.$index, scope.row)">查看
               </el-button>
               <el-button size="mini" @click="handleUpdateProduct(scope.$index,scope.row)">编辑
               </el-button>
+            </p>
+            <p>
               <el-button size="mini" @click="handleShowLog(scope.$index, scope.row)">日志
               </el-button>
               <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除
@@ -89,7 +91,8 @@
     <!-- 弹框 -->
     <el-dialog title="详情" :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
       <div v-if="userInfo!= null" class="dialog_div">
-        <img v-if="userInfo.header_pic_url" style="width:100px;height: 100px; border-radius: 50%;" :src="userInfo.header_pic_url" alt="">
+        <img v-if="userInfo.header_pic_url" style="width:100px;height: 100px; border-radius: 50%;" :src="userInfo.header_pic_url"
+          alt="">
         <div>账户昵称：{{userInfo.username}}</div>
         <div>手机号：{{userInfo.phone}}</div>
         <div>职务：{{userInfo.job}}</div>
@@ -104,7 +107,7 @@
     <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total,sizes,prev, pager, next,jumper"
-        :page-size="listQuery.size" :page-sizes="[5,10,15]" :current-page.sync="listQuery.skip" :total="total">
+        :page-size="listQuery.size" :page-sizes="[5,10,15]" :current-page.sync="listQuery.pageNum" :total="total">
       </el-pagination>
     </div>
 
@@ -118,7 +121,7 @@
     getUserList,
     getUserDetails
   } from '@/api/getUserBasicsList'
-  
+
   // 权限列表
   import {
     getRuleList
@@ -135,7 +138,7 @@
     job: null,
     status: null,
     adminGroupId: null,
-    skip: 1,
+    pageNum: 1,
     size: 5
   };
   export default {
@@ -186,7 +189,7 @@
       },
       // 搜索
       handleSearchList() {
-        this.listQuery.skip = 1;
+        this.listQuery.pageNum = 1;
         let obj = Object.assign({}, this.listQuery);
         obj.nickname = obj.nickname ? encodeURI(obj.nickname) : null
         obj.job = obj.job ? encodeURI(obj.job) : null
@@ -199,7 +202,6 @@
       },
       // 查看
       handleShowProduct(index, row) {
-        console.log("handleShowProduct", row);
         this.dialogVisible = true;
         getUserDetails({
           "adminUserId": row.admin_user_id
@@ -216,7 +218,7 @@
       async getGroupListFun() {
         try {
           let data = await getRuleList({
-            "skip": 0,
+            "pageNum": 1,
             "size": 100
           })
           let list = data.data.adminGroupList;
@@ -262,13 +264,13 @@
       },
       // 每页多少条
       handleSizeChange(val) {
-        this.listQuery.skip = 1;
+        this.listQuery.pageNum = 1;
         this.listQuery.size = val;
         this.getUserListFun();
       },
       // 数字-角标点击
       handleCurrentChange(val) {
-        this.listQuery.skip = val;
+        this.listQuery.pageNum = val;
         this.getUserListFun();
       },
       // form
@@ -304,16 +306,18 @@
   }
 </script>
 <style>
-.dialog_div{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.dialog_div img{
-  margin-bottom: 30px;
-}
-.dialog_div div{
-  width:300px;
-  padding: 10px;
-}
+  .dialog_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dialog_div img {
+    margin-bottom: 30px;
+  }
+
+  .dialog_div div {
+    width: 300px;
+    padding: 10px;
+  }
 </style>

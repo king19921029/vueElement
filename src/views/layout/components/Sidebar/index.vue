@@ -7,8 +7,7 @@
       :collapse="isCollapse"
       background-color="#304156"
       text-color="#bfcbd9"
-      active-text-color="#409EFF"
-    >
+      active-text-color="#409EFF">
       <sidebar-item :routes="routes"></sidebar-item>
     </el-menu>
   </scroll-bar>
@@ -27,8 +26,8 @@ export default {
     ]),
     routes() {
       // console.log(this.$router.options.routes)
-      return this.$router.options.routes
-      // return this.$store.getters.addRouters
+      // return this.$router.options.routes
+      return this.$store.getters.addRouters
     },
     isCollapse() {
       return !this.sidebar.opened
@@ -36,3 +35,6 @@ export default {
   }
 }
 </script>
+<style>
+  
+</style>

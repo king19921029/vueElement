@@ -1,7 +1,7 @@
 <template> 
   <div>
     <el-upload
-      action="http://macro-oss.oss-cn-shenzhen.aliyuncs.com"
+      action=""
       :data="dataObj"
       list-type="picture-card"
       :file-list="fileList"
@@ -10,8 +10,7 @@
       :on-success="handleUploadSuccess"
       :on-preview="handlePreview"
       :limit="maxCount"
-      :on-exceed="handleExceed"
-    >
+      :on-exceed="handleExceed">
       <i class="el-icon-plus"></i>
     </el-upload>
     <el-dialog :visible.sync="dialogVisible">
